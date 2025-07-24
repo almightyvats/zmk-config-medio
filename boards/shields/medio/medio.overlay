@@ -1,48 +1,50 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
 
 / {
-    chosen {
-        zmk,kscan = &default_kscan;
-    };
-
     behaviors {
         hold_tap_next_pairing: hold_tap_next_pairing {
             compatible = "zmk,behavior-hold-tap";
             label = "NEXT_OR_PAIR";
+            #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <300>;
-            bindings = <&kp C_NEXT &bt_pair>;
-        };
-
-        bt_pair: bt_pair {
-            compatible = "zmk,behavior-cmd";
-            label = "BT_PAIR";
-            command = "bt_pairable enable";
+            bindings = <&kp>, <&bt>;
+            bindings = <&kp C_NEXT>, <&bt BT_PAIR>;
         };
     };
 
-    default_kscan : kscan {
+    default_kscan: kscan {
         compatible = "zmk,kscan-gpio-direct";
         label = "kscan-direct";
 
-        row-gpios = <&gpio0 2 GPIO_ACTIVE_LOW | GPIO_PULL_UP>;
+        row-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 
         col-gpios = 
-            <&gpio0 3 GPIO_ACTIVE_LOW | GPIO_PULL_UP>,   // Key 1
-            <&gpio0 4 GPIO_ACTIVE_LOW | GPIO_PULL_UP>,   // Key 2
-            <&gpio0 5 GPIO_ACTIVE_LOW | GPIO_PULL_UP>,   // Key 3
-            <&gpio0 6 GPIO_ACTIVE_LOW | GPIO_PULL_UP>,   // Key 4
-            <&gpio0 20 GPIO_ACTIVE_LOW | GPIO_PULL_UP>;   // Encoder button
-        diode-direction = <0>; // COL2ROW
+            <&gpio0 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,   // Key 1
+            <&gpio0 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,   // Key 2
+            <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,   // Key 3
+            <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,   // Key 4
+            <&gpio0 20 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  // Encoder button
     };
 
-    encoder0: encoder {
-        compatible = "zmk,behavior-rotary-encoder";
-        label = "volume_encoder";
-        gpios = <&gpio0 19 GPIO_ACTIVE_LOW | GPIO_PULL_UP>, <&gpio0 18 GPIO_ACTIVE_LOW | GPIO_PULL_UP>;
-        steps = <1>;
-        rotation-cw = <&kp VOLU>;
-        rotation-ccw = <&kp VOLD>;
+    encoders {
+        compatible = "zmk,encoders";
+        encoder0: encoder_0 {
+            compatible = "zmk,behavior-rotary-encoder";
+            label = "VOLUME_ENCODER";
+            gpios = <&gpio0 19 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>, <&gpio0 18 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+            steps = <1>;
+            status = "okay";
+        };
+    };
+};
+
+/ {
+    chosen {
+        zmk,kscan = &default_kscan;
+        zmk,encoders = &encoders;
+        zmk,matrix_transform = &default_transform;
     };
 };
