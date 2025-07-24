@@ -23,7 +23,7 @@
     };
 };
 
-&kscan0 {
+kscan0:&kscan0 {
     compatible = "zmk,kscan-gpio-direct";
     label = "kscan-direct";
 
@@ -38,7 +38,7 @@
     diode-direction = <0>; // COL2ROW
 };
 
-&encoder0 {
+encoder0:&encoder0 {
     compatible = "zmk,behavior-rotary-encoder";
     label = "volume_encoder";
     gpios = <&gpio0 19 GPIO_ACTIVE_LOW | GPIO_PULL_UP>, <&gpio0 18 GPIO_ACTIVE_LOW | GPIO_PULL_UP>;
