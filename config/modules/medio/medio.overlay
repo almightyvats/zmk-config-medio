@@ -3,16 +3,14 @@
 
 / {
     chosen {
-        zmk,keyboard = &mykbd;
+        zmk,kscan = &default_kscan;
     };
 
     mykbd: mykbd {
-        compatible = "zmk,keyboard";
-        label = "MyMacropad";
+        compatible = "zmk,kscan-gpio-direct";
+        label = "default_kscan";
 
-        // Only columns used since this is hand-wired and direct
-        matrix_row_pins = <>;
-        matrix_col_pins = <
+        input-gpios = <
             &gpio0 2 GPIO_ACTIVE_LOW | GPIO_PULL_UP
             &gpio0 3 GPIO_ACTIVE_LOW | GPIO_PULL_UP
             &gpio0 4 GPIO_ACTIVE_LOW | GPIO_PULL_UP

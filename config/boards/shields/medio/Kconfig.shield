@@ -1,2 +1,0 @@
-config SHIELD_MEDIO
-    def_bool $(shields_list_contains, medio)
