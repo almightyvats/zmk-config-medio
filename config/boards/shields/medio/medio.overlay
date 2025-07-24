@@ -1,0 +1,51 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    chosen {
+        zmk,keyboard = &mykbd;
+    };
+
+    mykbd: mykbd {
+        compatible = "zmk,keyboard";
+        label = "MyMacropad";
+
+        // Only columns used since this is hand-wired and direct
+        matrix_row_pins = <>;
+        matrix_col_pins = <
+            &gpio0 2 GPIO_ACTIVE_LOW | GPIO_PULL_UP
+            &gpio0 3 GPIO_ACTIVE_LOW | GPIO_PULL_UP
+            &gpio0 4 GPIO_ACTIVE_LOW | GPIO_PULL_UP
+            &gpio0 5 GPIO_ACTIVE_LOW | GPIO_PULL_UP
+        >;
+
+        diode_direction = <COL2ROW>;
+
+        encoder0: encoder0 {
+            compatible = "zmk,encoder";
+            label = "RotaryEncoder";
+            a-pin = <&gpio0 6 GPIO_ACTIVE_LOW | GPIO_PULL_UP>;
+            b-pin = <&gpio0 7 GPIO_ACTIVE_LOW | GPIO_PULL_UP>;
+            encoder-steps = <4>;
+            rotation-cw = <&kp VOLU>;
+            rotation-ccw = <&kp VOLD>;
+            press = <&kp C_MUTE>;
+        };
+    };
+
+    behaviors {
+        hold_tap_next_pairing: hold_tap_next_pairing {
+            compatible = "zmk,behavior-hold-tap";
+            label = "NEXT_OR_PAIR";
+            flavor = "hold-preferred";
+            tapping-term-ms = <300>;
+            bindings = <&kp C_NEXT &bt_pair>;
+        };
+
+        bt_pair: bt_pair {
+            compatible = "zmk,behavior-cmd";
+            label = "BT_PAIR";
+            command = "bt_pairable enable";
+        };
+    };
+};

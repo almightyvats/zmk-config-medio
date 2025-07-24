@@ -1,0 +1,26 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &mo MEDIA_LAYER       // Key 1: momentary switch to media layer
+                &kp SPACE             // Key 2
+                &kp LEFT              // Key 3
+                &kp RIGHT             // Key 4
+            >;
+        };
+
+        media_layer {
+            bindings = <
+                &trans                        // Key 1: transparent
+                &kp C_PLAY_PAUSE             // Key 2
+                &kp C_PREV                    // Key 3
+                &hold_tap_next_pairing       // Key 4: tap = next track, hold = bt_pair
+            >;
+        };
+    };
+};
