@@ -1,0 +1,6 @@
+if SHIELD_MEDIO
+
+config ZMK_KEYBOARD_NAME
+    default "medio"
+
+endif
