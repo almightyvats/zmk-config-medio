@@ -1,0 +1,5 @@
+name: medio
+boards:
+  - nice_nano_v2         # Or whichever board you're targeting
+shields:
+  - medio
